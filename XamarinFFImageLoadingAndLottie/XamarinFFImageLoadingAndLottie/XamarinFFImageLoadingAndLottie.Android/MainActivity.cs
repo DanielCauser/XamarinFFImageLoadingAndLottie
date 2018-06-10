@@ -1,6 +1,8 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using FFImageLoading.Forms.Platform;
+using Lottie.Forms.Droid;
 using Prism;
 using Prism.Ioc;
 
@@ -17,6 +19,10 @@ namespace XamarinFFImageLoadingAndLottie.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+
+            AnimationViewRenderer.Init();
+            CachedImageRenderer.Init(true);
+
             LoadApplication(new App(new AndroidInitializer()));
         }
     }

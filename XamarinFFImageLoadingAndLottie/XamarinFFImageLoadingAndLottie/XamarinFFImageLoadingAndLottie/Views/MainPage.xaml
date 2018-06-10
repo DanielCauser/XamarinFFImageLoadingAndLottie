@@ -1,10 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="XamarinFFImageLoadingAndLottie.Views.MainPage"
+             xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" 
+             xmlns:custom="clr-namespace:XamarinFFImageLoadingAndLottie.Controls;assembly=XamarinFFImageLoadingAndLottie"
              Title="{Binding Title}">
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+    <StackLayout HorizontalOptions="FillAndExpand"
+                 VerticalOptions="FillAndExpand">
         <ActivityIndicator IsVisible="{Binding IsBusy}" 
                            IsRunning="{Binding IsBusy}" />
 
@@ -12,13 +15,15 @@
                 Command="{Binding ReloadMonkeysCommand}"/>
 
         <ListView ItemsSource="{Binding Monkeys}" 
-                  RowHeight="100"
-                  CachingStrategy="RecycleElement">
+                  HorizontalOptions="FillAndExpand"
+                  VerticalOptions="FillAndExpand"
+                  CachingStrategy="RecycleElement"
+                  RowHeight="200">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid Padding="20" 
-                              VerticalOptions="CenterAndExpand">
+                        <Grid Padding="20"
+                              VerticalOptions="FillAndExpand">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="*" />
@@ -29,9 +34,35 @@
                                 <ColumnDefinition Width="2*" />
                             </Grid.ColumnDefinitions>
 
-                            <Image Grid.RowSpan="2"
-                                   Grid.Column="0"
-                                   Source="{Binding Image}"/>
+                            <custom:CachedImageCustomControl x:Name="ImageView"
+                                                             Grid.RowSpan="2"
+                                                             Grid.Column="0"
+                                                             DownsampleToViewSize="true"
+                                                             RetryCount="3"
+                                                             RetryDelay="2000"
+                                                             IsOpaque="true"
+                                                             CacheDuration="0"
+                                                             FadeAnimationForCachedImages="true"
+                                                             FadeAnimationEnabled="true"
+                                                             Source="{Binding Image}"/>
+
+                            <forms:AnimationView Grid.RowSpan="2"
+                                                 Grid.Column="0"
+                                                 Animation="loading.json" 
+                                                 Loop="true" 
+                                                 AutoPlay="true"
+                                                 VerticalOptions="FillAndExpand" 
+                                                 HorizontalOptions="FillAndExpand"
+                                                 IsVisible="{Binding Source={x:Reference ImageView}, Path=IsLoading}"/>
+
+                            <forms:AnimationView Grid.RowSpan="2"
+                                                 Grid.Column="0"
+                                                 Animation="file_error.json" 
+                                                 Loop="true" 
+                                                 AutoPlay="true"
+                                                 VerticalOptions="FillAndExpand" 
+                                                 HorizontalOptions="FillAndExpand"
+                                                 IsVisible="{Binding Source={x:Reference ImageView}, Path=IsFailed}"/>
 
                             <Label Grid.Row="0"
                                    Grid.Column="1"
@@ -50,27 +81,4 @@
             </ListView.ItemTemplate>
         </ListView>
     </StackLayout>
-
-    <!--
-    Lottie
-
-    Lottie is a mobile library for Android and iOS that parses Adobe After Effects animations exported as json with Bodymovin and renders them natively on mobile!
-
-    Using Lottie on Xamarin.Forms:
-
-    <forms:AnimationView 
-        x:Name="animationView" 
-        Grid.Row="1"
-        Animation="LottieLogo1.json" 
-        Loop="false" 
-        AutoPlay="false"
-        OnFinish="Handle_OnFinish"
-        PlaybackStartedCommand="{Binding PlayingCommand}"
-        PlaybackFinishedCommand="{Binding FinishedCommand}" 
-        ClickedCommand="{Binding ClickedCommand}"
-        VerticalOptions="FillAndExpand" 
-        HorizontalOptions="FillAndExpand" />
-
-    Star on Github if this project helps you: https://github.com/martijn00/LottieXamarin-->
-
 </ContentPage>

@@ -181,6 +181,8 @@
     <BundleResource Include="Resources\Default.png" />
     <BundleResource Include="Resources\Default@2x.png" />
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
+    <BundleResource Include="Resources\loading.json" />
+    <BundleResource Include="Resources\file_error.json" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -206,7 +208,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XamarinFFImageLoadingAndLottie\XamarinFFImageLoadingAndLottie.csproj">
-      <Project>{A682884C-CB44-4A89-B752-27BB634E0ABE}</Project>
+      <Project>{62EC3E24-5FD3-40CD-AB57-9F61EE970581}</Project>
       <Name>XamarinFFImageLoadingAndLottie</Name>
     </ProjectReference>
   </ItemGroup>

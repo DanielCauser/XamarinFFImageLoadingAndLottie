@@ -104,9 +104,13 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XamarinFFImageLoadingAndLottie\XamarinFFImageLoadingAndLottie.csproj">
-      <Project>{A682884C-CB44-4A89-B752-27BB634E0ABE}</Project>
+      <Project>{62EC3E24-5FD3-40CD-AB57-9F61EE970581}</Project>
       <Name>XamarinFFImageLoadingAndLottie</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\loading.json" />
+    <AndroidAsset Include="Assets\file_error.json" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
