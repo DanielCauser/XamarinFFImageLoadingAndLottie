@@ -183,6 +183,10 @@
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
     <BundleResource Include="Resources\loading.json" />
     <BundleResource Include="Resources\file_error.json" />
+    <BundleResource Include="Resources\error.json" />
+    <BundleResource Include="Resources\clear_background.png" />
+    <BundleResource Include="Resources\clear_background%402x.png" />
+    <BundleResource Include="Resources\clear_background%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -15,10 +15,22 @@ namespace XamarinFFImageLoadingAndLottie.Controls
                                     typeof(CachedImageCustomControl),
                                     false);
 
+        public new static readonly BindableProperty IsLoadingProperty =
+            BindableProperty.Create(nameof(IsLoading),
+                                    typeof(bool),
+                                    typeof(CachedImageCustomControl),
+                                    false);
+
         public bool IsFailed
         {
             get => (bool)GetValue(IsFailedProperty);
             set => SetValue(IsFailedProperty, value);
+        }
+
+        public new bool IsLoading
+        {
+            get => (bool)GetValue(IsLoadingProperty);
+            set => SetValue(IsLoadingProperty, value);
         }
 
         protected override void OnPropertyChanging([CallerMemberName] string propertyName = null)
@@ -34,11 +46,14 @@ namespace XamarinFFImageLoadingAndLottie.Controls
 
         private void OnImageDownloadStarted(object sender, EventArgs e)
         {
+            IsLoading = true;
+            IsFailed = false;
             DownloadStarted -= OnImageDownloadStarted;
         }
 
         private void OnImageLoadFailed(object sender, EventArgs args)
         {
+            IsLoading = false;
             IsFailed = true;
             Error -= OnImageLoadFailed;
             Success -= OnImageLoadSucceeded;
@@ -47,6 +62,7 @@ namespace XamarinFFImageLoadingAndLottie.Controls
 
         private void OnImageLoadSucceeded(object sender, EventArgs args)
         {
+            IsLoading = false;
             IsFailed = false;
             Success -= OnImageLoadSucceeded;
             Error -= OnImageLoadFailed;

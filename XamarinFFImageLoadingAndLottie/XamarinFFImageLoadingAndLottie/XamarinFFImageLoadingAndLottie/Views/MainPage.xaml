@@ -17,7 +17,7 @@
         <ListView ItemsSource="{Binding Monkeys}" 
                   HorizontalOptions="FillAndExpand"
                   VerticalOptions="FillAndExpand"
-                  CachingStrategy="RecycleElement"
+                  CachingStrategy="RetainElement"
                   RowHeight="200">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -38,12 +38,12 @@
                                                              Grid.RowSpan="2"
                                                              Grid.Column="0"
                                                              DownsampleToViewSize="true"
-                                                             RetryCount="3"
-                                                             RetryDelay="2000"
                                                              IsOpaque="true"
                                                              CacheDuration="0"
                                                              FadeAnimationForCachedImages="true"
                                                              FadeAnimationEnabled="true"
+                                                             LoadingPlaceholder="clear_background.png"
+                                                             ErrorPlaceholder="clear_background.png"
                                                              Source="{Binding Image}"/>
 
                             <forms:AnimationView Grid.RowSpan="2"
@@ -57,8 +57,8 @@
 
                             <forms:AnimationView Grid.RowSpan="2"
                                                  Grid.Column="0"
-                                                 Animation="file_error.json" 
-                                                 Loop="true" 
+                                                 Animation="error.json" 
+                                                 Loop="false" 
                                                  AutoPlay="true"
                                                  VerticalOptions="FillAndExpand" 
                                                  HorizontalOptions="FillAndExpand"
@@ -67,14 +67,16 @@
                             <Label Grid.Row="0"
                                    Grid.Column="1"
                                    Text="{Binding Name}"
-                                   HorizontalOptions="StartAndExpand"
-                                   LineBreakMode="CharacterWrap"/>
+                                   LineBreakMode="WordWrap"
+                                   HorizontalOptions="Start"
+                                   VerticalOptions="FillAndExpand"/>
 
                             <Label Grid.Row="1"
                                    Grid.Column="1"
                                    Text="{Binding Details}"
-                                   HorizontalOptions="StartAndExpand"
-                                   LineBreakMode="CharacterWrap"/>
+                                   HorizontalOptions="FillAndExpand"
+                                   VerticalOptions="FillAndExpand"
+                                   LineBreakMode="WordWrap"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
