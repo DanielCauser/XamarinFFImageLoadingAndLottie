@@ -15,44 +15,53 @@ namespace XamarinFFImageLoadingAndLottie.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
+        private Random _random;
         private IEnumerable<Monkey> _monkeys;
+        private Monkey _selectedMonkeys;
 
-        public IEnumerable<Monkey> Monkeys
+        public Monkey SelectedMonkey
         {
-            get => _monkeys;
-            set => SetProperty(ref _monkeys, value);
+            get => _selectedMonkeys;
+            set => SetProperty(ref _selectedMonkeys, value);
         }
 
         public ICommand ReloadMonkeysCommand
         {
-            get { return new Command(async () => { await LoadMonkeys(); }); }
+            get { return new Command(() => { LoadMonkeys(); }); }
         }
         
         public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
             Title = "Main Page";
+            _random = new Random();
         }
 
-        public override async void OnNavigatingTo(NavigationParameters parameters)
+        public override void OnNavigatingTo(NavigationParameters parameters)
         {
             base.OnNavigatingTo(parameters);
-            await LoadMonkeys();
+            LoadMonkeys();
         }
 
-        private async Task LoadMonkeys()
+        private void LoadMonkeys()
         {
             if (IsBusy) return;
 
             IsBusy = true;
-            await Task.Run(() =>
+
+            if(_monkeys is null)
             {
                 using (var reader = new StreamReader(Assembly.GetAssembly(typeof(App))
-                                                                   .GetManifestResourceStream(Assembly.GetAssembly(typeof(App)).GetManifestResourceNames().First()) ?? throw new InvalidOperationException()))
+                                                               .GetManifestResourceStream(Assembly.GetAssembly(typeof(App)).GetManifestResourceNames().First()) ?? throw new InvalidOperationException()))
                 {
-                    Monkeys = JsonConvert.DeserializeObject<IEnumerable<Monkey>>(reader.ReadToEnd());
+                    _monkeys = JsonConvert.DeserializeObject<IEnumerable<Monkey>>(reader.ReadToEnd());
                 }
-            });
+            }
+
+            int index = _random.Next(0, _monkeys.Count());
+
+            SelectedMonkey = _monkeys.ElementAt(index);
+
             IsBusy = false;
         }
     }

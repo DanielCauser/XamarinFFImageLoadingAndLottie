@@ -6,81 +6,53 @@
              xmlns:custom="clr-namespace:XamarinFFImageLoadingAndLottie.Controls;assembly=XamarinFFImageLoadingAndLottie"
              Title="{Binding Title}">
 
-    <StackLayout HorizontalOptions="FillAndExpand"
-                 VerticalOptions="FillAndExpand">
+    <StackLayout HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="Center">
         <ActivityIndicator IsVisible="{Binding IsBusy}" 
                            IsRunning="{Binding IsBusy}" />
 
-        <Button Text="Reload Monkeys"
+        <Button Text="Pick other Monkey"
                 Command="{Binding ReloadMonkeysCommand}"/>
 
-        <ListView ItemsSource="{Binding Monkeys}" 
-                  HorizontalOptions="FillAndExpand"
-                  VerticalOptions="FillAndExpand"
-                  CachingStrategy="RetainElement"
-                  RowHeight="200">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid Padding="20"
-                              VerticalOptions="FillAndExpand">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
+        <custom:CachedImageCustomControl x:Name="ImageView"
+                                         WidthRequest="100"
+                                         HeightRequest="100"
+                                         DownsampleToViewSize="true"
+                                         IsOpaque="true"
+                                         CacheDuration="0"
+                                         FadeAnimationForCachedImages="true"
+                                         FadeAnimationEnabled="true"
+                                         LoadingPlaceholder="clear_background.png"
+                                         ErrorPlaceholder="clear_background.png"
+                                         Source="{Binding SelectedMonkey.Image}"/>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
+        <forms:AnimationView Animation="loading.json" 
+                             Loop="true" 
+                             AutoPlay="true"
+                             VerticalOptions="FillAndExpand" 
+                             HorizontalOptions="FillAndExpand"
+                             IsVisible="{Binding Source={x:Reference ImageView}, Path=IsLoading}"/>
 
-                            <custom:CachedImageCustomControl x:Name="ImageView"
-                                                             Grid.RowSpan="2"
-                                                             Grid.Column="0"
-                                                             DownsampleToViewSize="true"
-                                                             IsOpaque="true"
-                                                             CacheDuration="0"
-                                                             FadeAnimationForCachedImages="true"
-                                                             FadeAnimationEnabled="true"
-                                                             LoadingPlaceholder="clear_background.png"
-                                                             ErrorPlaceholder="clear_background.png"
-                                                             Source="{Binding Image}"/>
+        <forms:AnimationView Animation="error.json" 
+                             Loop="false" 
+                             AutoPlay="true"
+                             VerticalOptions="FillAndExpand" 
+                             HorizontalOptions="FillAndExpand"
+                             IsVisible="{Binding Source={x:Reference ImageView}, Path=IsFailed}"/>
 
-                            <forms:AnimationView Grid.RowSpan="2"
-                                                 Grid.Column="0"
-                                                 Animation="loading.json" 
-                                                 Loop="true" 
-                                                 AutoPlay="true"
-                                                 VerticalOptions="FillAndExpand" 
-                                                 HorizontalOptions="FillAndExpand"
-                                                 IsVisible="{Binding Source={x:Reference ImageView}, Path=IsLoading}"/>
+        <Label Text="{Binding SelectedMonkey.Name}"
+               VerticalTextAlignment="Center"
+               HorizontalTextAlignment="Center"
+               LineBreakMode="WordWrap"
+               HorizontalOptions="FillAndExpand"
+               VerticalOptions="FillAndExpand"
+               FontAttributes="Bold"/>
 
-                            <forms:AnimationView Grid.RowSpan="2"
-                                                 Grid.Column="0"
-                                                 Animation="error.json" 
-                                                 Loop="false" 
-                                                 AutoPlay="true"
-                                                 VerticalOptions="FillAndExpand" 
-                                                 HorizontalOptions="FillAndExpand"
-                                                 IsVisible="{Binding Source={x:Reference ImageView}, Path=IsFailed}"/>
-
-                            <Label Grid.Row="0"
-                                   Grid.Column="1"
-                                   Text="{Binding Name}"
-                                   LineBreakMode="WordWrap"
-                                   HorizontalOptions="Start"
-                                   VerticalOptions="FillAndExpand"/>
-
-                            <Label Grid.Row="1"
-                                   Grid.Column="1"
-                                   Text="{Binding Details}"
-                                   HorizontalOptions="FillAndExpand"
-                                   VerticalOptions="FillAndExpand"
-                                   LineBreakMode="WordWrap"/>
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <Label Text="{Binding SelectedMonkey.Details}"
+               VerticalTextAlignment="Center"
+               HorizontalTextAlignment="Center"
+               HorizontalOptions="FillAndExpand"
+               VerticalOptions="FillAndExpand"
+               LineBreakMode="WordWrap"/>
     </StackLayout>
 </ContentPage>
